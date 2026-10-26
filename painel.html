@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel · Deus Conosco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--fundo:#0a0706;--cartao:#17100c;--linha:#3a2a1e;--bege:#e8d9bd;--branco:#fbf6ec;--suave:#b3a182;--ouro:#e6b34a;--roxo:#8a5fd0;
+  color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(70% 30% at 50% 0%,rgba(122,76,194,.25),transparent 70%),var(--fundo);color:var(--bege);font-family:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+main{max-width:720px;margin:0 auto;padding:26px 20px 50px}
+h1,h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;color:var(--branco)}
+h1{font-size:2rem}
+h2{font-size:1.3rem;margin:36px 0 12px}
+[hidden]{display:none!important}
+.topo{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topo small{display:block;margin-top:4px;color:var(--suave);font-size:.78rem}
+button{font:inherit;cursor:pointer}
+.sec{background:transparent;border:1px solid var(--linha);color:var(--bege);padding:8px 14px;border-radius:99px;font-size:.82rem}
+.sec:hover{border-color:var(--ouro)}
+.acoes{display:flex;gap:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:22px}
+.card{background:var(--cartao);border:1px solid var(--linha);border-radius:16px;padding:14px 16px}
+.card b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:2.1rem;line-height:1;color:var(--ouro)}
+.card span{display:block;margin-top:7px;font-size:.78rem;color:var(--suave)}
+.grafico{display:flex;align-items:flex-end;gap:3px;height:130px;padding:12px;border:1px solid var(--linha);border-radius:16px;background:var(--cartao)}
+.grafico i{flex:1;min-height:2px;border-radius:3px 3px 0 0;background:linear-gradient(var(--ouro),#8a5e0c)}
+.eixo{display:flex;justify-content:space-between;margin-top:7px;font-size:.72rem;color:var(--suave)}
+.rank{display:grid;gap:14px}
+.lin{display:grid;grid-template-columns:1fr auto;gap:3px 12px;font-size:.92rem;color:var(--branco)}
+.lin small{grid-column:1;color:var(--suave);font-size:.76rem}
+.lin em{font-style:normal;color:var(--ouro);font-weight:700;grid-row:1;grid-column:2}
+.barra{grid-column:1/-1;height:6px;border-radius:9px;background:var(--linha);overflow:hidden}
+.barra i{display:block;height:100%;background:linear-gradient(90deg,var(--roxo),var(--ouro))}
+.ins{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 2px;border-bottom:1px solid var(--linha);font-size:.93rem;color:var(--branco)}
+.ins small{display:block;margin-top:2px;color:var(--suave);font-size:.75rem}
+.tag{flex:none;padding:3px 11px;border-radius:99px;border:1px solid var(--linha);color:var(--bege);font-size:.74rem}
+.vazio{padding:10px 0;color:var(--suave);font-size:.88rem}
+#login{max-width:360px;margin:11vh auto 0;text-align:center}
+#login p{margin-top:8px;color:var(--suave);font-size:.88rem}
+input{width:100%;margin-top:12px;padding:14px 16px;border-radius:14px;border:1px solid var(--linha);background:var(--cartao);color:var(--branco);font:inherit;font-size:1rem}
+input:focus{outline:2px solid var(--ouro);outline-offset:1px}
+.ok{width:100%;margin-top:18px;padding:14px;border:0;border-radius:99px;background:linear-gradient(145deg,#f6dc92,#b9821f);color:#1b1209;font-weight:700}
+#erro{min-height:1.3em;margin-top:12px;color:#e0806f;font-size:.85rem}
+</style>
+</head>
+<body>
+<main>
+  <section id="login">
+    <h1>Painel</h1>
+    <p>Acesso restrito à equipe da Deus Conosco.</p>
+    <input id="email" type="email" autocomplete="username" placeholder="E-mail">
+    <input id="senha" type="password" autocomplete="current-password" placeholder="Senha">
+    <button class="ok" id="entrar" type="button">Entrar</button>
+    <div id="erro" role="alert"></div>
+  </section>
+
+  <section id="painel" hidden>
+    <div class="topo">
+      <div><h1>Painel</h1><small id="status"></small></div>
+      <div class="acoes"><button class="sec" id="atualizar" type="button">Atualizar</button><button class="sec" id="sair" type="button">Sair</button></div>
+    </div>
+    <div class="cards" id="cards"></div>
+
+    <h2>Páginas vistas nos últimos 30 dias</h2>
+    <div class="grafico" id="grafico"></div>
+    <div class="eixo" id="eixo"></div>
+
+    <h2>Botões mais clicados (30 dias)</h2>
+    <div class="rank" id="cliques"></div>
+
+    <h2>Páginas mais vistas (30 dias)</h2>
+    <div class="rank" id="paginas"></div>
+
+    <h2>Inscrições</h2>
+    <div class="acoes" style="margin-bottom:6px"><button class="sec" id="csv" type="button">Baixar planilha (CSV)</button></div>
+    <div id="lista"></div>
+  </section>
+</main>
+
+<script>
+/* ===== Preencha com os dados do seu projeto Supabase (chave PÚBLICA, nunca a "service_role") ===== */
+const SUPABASE_URL = "";
+const SUPABASE_CHAVE = "";
+/* ===== fim ===== */
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+const num = n => Number(n || 0).toLocaleString("pt-BR");
+const CURSO = { metanoia: "Metanoia", edd: "EDD" };
+let token = ""; try { token = sessionStorage.getItem("tk") || ""; } catch (e) {}
+
+async function api(caminho) {
+  const r = await fetch(SUPABASE_URL + "/rest/v1/" + caminho, { headers: { apikey: SUPABASE_CHAVE, Authorization: "Bearer " + token } });
+  if (r.status === 401 || r.status === 403) { sair(); throw new Error("sessão"); }
+  if (!r.ok) throw new Error("erro " + r.status);
+  return r.json();
+}
+function sair() {
+  token = ""; try { sessionStorage.removeItem("tk"); } catch (e) {}
+  $("painel").hidden = true; $("login").hidden = false;
+}
+async function entrar() {
+  $("erro").textContent = "";
+  if (!SUPABASE_URL || !SUPABASE_CHAVE) { $("erro").textContent = "Falta preencher SUPABASE_URL e SUPABASE_CHAVE no arquivo."; return; }
+  try {
+    const r = await fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", { method: "POST",
+      headers: { apikey: SUPABASE_CHAVE, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: $("email").value.trim(), password: $("senha").value }) });
+    const d = await r.json();
+    if (!r.ok || !d.access_token) { $("erro").textContent = "E-mail ou senha incorretos."; return; }
+    token = d.access_token; try { sessionStorage.setItem("tk", token); } catch (e) {}
+    $("senha").value = ""; carregar();
+  } catch (e) { $("erro").textContent = "Não foi possível conectar. Tente de novo."; }
+}
+async function carregar() {
+  $("login").hidden = true; $("painel").hidden = false; $("status").textContent = "Carregando...";
+  try {
+    const [res, cli, pag, dia, ins] = await Promise.all([
+      api("v_resumo"), api("v_cliques?order=ultimos_30.desc&limit=40"), api("v_paginas?order=total.desc"),
+      api("v_dia?order=dia.asc"), api("inscricoes?select=*&order=criado_em.desc&limit=500") ]);
+    desenhar(res[0] || {}, cli, pag, dia, ins);
+    $("status").textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  } catch (e) { if (token) $("status").textContent = "Não foi possível carregar os dados."; }
+}
+const fmtDia = d => d.slice(8, 10) + "/" + d.slice(5, 7);
+function ranking(alvo, linhas, nome, valor, sub) {
+  if (!linhas.length) { alvo.replaceChildren(el("p", "vazio", "Ainda sem dados.")); return; }
+  const max = Math.max(1, ...linhas.map(l => l[valor]));
+  alvo.replaceChildren(...linhas.map(l => {
+    const d = el("div", "lin"); d.append(el("span", null, l[nome] || "(sem nome)"), el("em", null, num(l[valor])));
+    if (sub) d.append(el("small", null, sub(l)));
+    const b = el("div", "barra"), i = el("i"); i.style.width = (l[valor] / max * 100) + "%"; b.append(i); d.append(b); return d;
+  }));
+}
+function desenhar(r, cli, pag, dia, ins) {
+  const cartoes = [[r.visitas_24h, "páginas vistas (24 h)"], [r.visitas_7d, "páginas vistas (7 dias)"], [r.unicos_7d, "visitantes (7 dias)"],
+    [r.unicos_30d, "visitantes (30 dias)"], [r.cliques_30d, "cliques (30 dias)"], [ins.length, "inscrições"]];
+  $("cards").replaceChildren(...cartoes.map(([n, t]) => { const c = el("div", "card"); c.append(el("b", null, num(n)), el("span", null, t)); return c; }));
+
+  const max = Math.max(1, ...dia.map(d => d.paginas));
+  $("grafico").replaceChildren(...dia.map(d => { const i = el("i"); i.style.height = Math.max(2, d.paginas / max * 100) + "%"; i.title = fmtDia(d.dia) + ": " + d.paginas + " páginas vistas, " + d.visitantes + " visitantes"; return i; }));
+  $("eixo").replaceChildren(...(dia.length ? [el("span", null, fmtDia(dia[0].dia)), el("span", null, fmtDia(dia[dia.length - 1].dia))] : []));
+
+  ranking($("cliques"), cli, "botao", "ultimos_30", l => num(l.ultimos_7) + " nos últimos 7 dias");
+  ranking($("paginas"), pag, "pagina", "total");
+
+  $("lista").replaceChildren(...(ins.length ? ins.map(i => {
+    const l = el("div", "ins"), a = el("div");
+    a.append(el("span", null, i.nome), el("small", null, new Date(i.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })));
+    l.append(a, el("span", "tag", CURSO[i.curso] || i.curso)); return l;
+  }) : [el("p", "vazio", "Nenhuma inscrição ainda.")]));
+
+  $("csv").onclick = () => {
+    const seguro = c => { c = String(c); if (/^[=+\-@]/.test(c)) c = "'" + c; return '"' + c.replace(/"/g, '""') + '"'; };
+    const linhas = [["curso", "nome", "data"], ...ins.map(i => [CURSO[i.curso] || i.curso, i.nome, i.criado_em])];
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff" + linhas.map(l => l.map(seguro).join(",")).join("\n")], { type: "text/csv;charset=utf-8" }));
+    a.download = "inscricoes.csv"; a.click();
+  };
+}
+$("entrar").addEventListener("click", entrar);
+$("senha").addEventListener("keydown", e => { if (e.key === "Enter") entrar(); });
+$("atualizar").addEventListener("click", carregar);
+$("sair").addEventListener("click", sair);
+if (token) carregar();
+</script>
+</body>
+</html>
