@@ -251,7 +251,7 @@ const CONFIG = {
   ],
   primeiraVez: { intro:"Que bom ter você com a gente!", endereco:"Rua Manoel Antunes Figueiredo, 211, Ampliação, Itaboraí" },
   inscricoes: { metanoia:"Metanoia", edd:"EDD (Escola de Discípulos)" },
-  supabase: { url:"", chave:"" },   // dados do seu projeto Supabase (chave PÚBLICA "anon"/"publishable"), veja o passo a passo
+  supabase: { url:"https://hqibjzvufcmjqhacegkj.supabase.co", chave:"sb_publishable_a8bUE78fZh5fc_5fSJ540A_MVfC10Gt" },   // dados do seu projeto Supabase (chave PÚBLICA "anon"/"publishable"), veja o passo a passo
 
   /* Agenda: atualize a cada ~15 dias. data no formato "2026-10-25" (eventos passados somem sozinhos). */
   agenda: {
@@ -429,7 +429,7 @@ function enviar(tabela, dados) {
   const s = CONFIG.supabase; if (!s || !s.url || !s.chave) return;
   try {
     fetch(s.url + "/rest/v1/" + tabela, { method: "POST", keepalive: true,
-      headers: { apikey: s.chave, Authorization: "Bearer " + s.chave, "Content-Type": "application/json", Prefer: "return=minimal" },
+      headers: { apikey: s.chave, "Content-Type": "application/json", Prefer: "return=minimal" },
       body: JSON.stringify(dados) }).catch(() => {});
   } catch (e) {}
 }
